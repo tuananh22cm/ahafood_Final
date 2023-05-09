@@ -12,6 +12,9 @@ import {
   PRODUCT_LIST_SEARCH_REQUEST,
   PRODUCT_LIST_SEARCH_SUCCESS,
   PRODUCT_LIST_SEARCH_FAIL,
+  PRODUCT_LIST_CATEGORY_REQUEST,
+  PRODUCT_LIST_CATEGORY_SUCCESS,
+  PRODUCT_LIST_CATEGORY_FAIL,
 } from "../Constants/ProductConstants";
 
 // PRODUCT LIST
@@ -32,7 +35,7 @@ export const productListReducer = (state = { products: [] }, action) => {
       return state;
   }
 };
-
+//Product search
 export const productListSearchReducer = (state = { products: [] }, action) => {
   switch (action.type) {
     case PRODUCT_LIST_SEARCH_REQUEST:
@@ -48,6 +51,24 @@ export const productListSearchReducer = (state = { products: [] }, action) => {
       return state;
   }
 };
+
+//Product by category
+export const productListCatgoryReducer = (state = { products: [] }, action) => {
+  switch (action.type) {
+    case PRODUCT_LIST_CATEGORY_REQUEST:
+      return { loading: true, products: [] };
+    case PRODUCT_LIST_CATEGORY_SUCCESS:
+      return {
+        loading: false,
+        products: action.payload,
+      };
+    case PRODUCT_LIST_CATEGORY_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
 
 // SINGLE PRODUCT
 export const productDetailsReducer = (

@@ -6,6 +6,7 @@ import {
   productDetailsReducer,
   productListReducer,
   productListSearchReducer,
+  productListCatgoryReducer,
 } from "./Reducers/ProductReducers";
 import {
   pdfCreateReviewReducer,
@@ -31,6 +32,7 @@ const reducer = combineReducers({
   productDetails: productDetailsReducer,
   productReviewCreate: productCreateReviewReducer,
   productListSearch: productListSearchReducer,
+  productListCategory : productListCatgoryReducer,
   pdfList: pdfListReducer,
   pdfDetails: pdfDetailsReducer,
   pdfReviewCreate: pdfCreateReviewReducer,

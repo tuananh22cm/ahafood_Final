@@ -2,11 +2,15 @@ import { useState, useEffect } from "react";
 import ClipLoader from "react-spinners/ClipLoader";
 import axios from "axios";
 import { useHistory, useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { listByCategory } from "..//Redux/Actions/ProductActions";
+
 
 const Dialog = ({ idParent, isOpenDialog, setCloseDialog, onClickOpen }) => {
   const [listItem, setListItem] = useState([]);
   const [loading, setLoading] = useState(false);
   const history = useHistory();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (idParent) {
@@ -33,6 +37,7 @@ const Dialog = ({ idParent, isOpenDialog, setCloseDialog, onClickOpen }) => {
   };
 
   const redirectPage = (href) => {
+    dispatch(listByCategory(href));
     history.push(`/category/${href}`);
   };
 

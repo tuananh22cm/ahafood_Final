@@ -79,6 +79,166 @@ const products = [
     rating: 0,
     numReviews: 0,
   },
+  {
+    name: "Tôm chiên",
+    image: "/images/1.jpg",
+    description:
+      "Tôm chiên cho nguoi co nhieu tam trang",
+    price: 69.000,
+    countInStock: 0,
+    rating: 0,
+    numReviews: 0,
+  },
+  {
+    name: "Tôm chiên",
+    image: "/images/1.jpg",
+    description:
+      "Tôm chiên cho nguoi co nhieu tam trang",
+    price: 69.000,
+    countInStock: 0,
+    rating: 0,
+    numReviews: 0,
+  },
+  {
+    name: "Tôm chiên",
+    image: "/images/1.jpg",
+    description:
+      "Tôm chiên cho nguoi co nhieu tam trang",
+    price: 69.000,
+    countInStock: 0,
+    rating: 0,
+    numReviews: 0,
+  },
+  {
+    name: "Tôm chiên",
+    image: "/images/1.jpg",
+    description:
+      "Tôm chiên cho nguoi co nhieu tam trang",
+    price: 69.000,
+    countInStock: 0,
+    rating: 0,
+    numReviews: 0,
+  },
+  {
+    name: "Tôm chiên",
+    image: "/images/1.jpg",
+    description:
+      "Tôm chiên cho nguoi co nhieu tam trang",
+    price: 69.000,
+    countInStock: 0,
+    rating: 0,
+    numReviews: 0,
+  },
+  {
+    name: "Tôm chiên",
+    image: "/images/1.jpg",
+    description:
+      "Tôm chiên cho nguoi co nhieu tam trang",
+    price: 69.000,
+    countInStock: 0,
+    rating: 0,
+    numReviews: 0,
+  },
+  {
+    name: "Tôm chiên",
+    image: "/images/1.jpg",
+    description:
+      "Tôm chiên cho nguoi co nhieu tam trang",
+    price: 69.000,
+    countInStock: 0,
+    rating: 0,
+    numReviews: 0,
+  },
+  {
+    name: "Tôm chiên",
+    image: "/images/1.jpg",
+    description:
+      "Tôm chiên cho nguoi co nhieu tam trang",
+    price: 69.000,
+    countInStock: 0,
+    rating: 0,
+    numReviews: 0,
+  },
+  {
+    name: "Tôm chiên",
+    image: "/images/1.jpg",
+    description:
+      "Tôm chiên cho nguoi co nhieu tam trang",
+    price: 69.000,
+    countInStock: 0,
+    rating: 0,
+    numReviews: 0,
+  },
+  {
+    name: "Tôm chiên",
+    image: "/images/1.jpg",
+    description:
+      "Tôm chiên cho nguoi co nhieu tam trang",
+    price: 69.000,
+    countInStock: 0,
+    rating: 0,
+    numReviews: 0,
+  },
+  {
+    name: "Tôm chiên",
+    image: "/images/1.jpg",
+    description:
+      "Tôm chiên cho nguoi co nhieu tam trang",
+    price: 69.000,
+    countInStock: 0,
+    rating: 0,
+    numReviews: 0,
+  },
+  {
+    name: "Tôm chiên",
+    image: "/images/1.jpg",
+    description:
+      "Tôm chiên cho nguoi co nhieu tam trang",
+    price: 69.000,
+    countInStock: 0,
+    rating: 0,
+    numReviews: 0,
+  },
+  {
+    name: "Tôm chiên",
+    image: "/images/1.jpg",
+    description:
+      "Tôm chiên cho nguoi co nhieu tam trang",
+    price: 69.000,
+    countInStock: 0,
+    rating: 0,
+    numReviews: 0,
+  },
+  {
+    name: "Tôm chiên",
+    image: "/images/1.jpg",
+    description:
+      "Tôm chiên cho nguoi co nhieu tam trang",
+    price: 69.000,
+    countInStock: 0,
+    rating: 0,
+    numReviews: 0,
+  },
+  {
+    name: "Tôm chiên",
+    image: "/images/1.jpg",
+    description:
+      "Tôm chiên cho nguoi co nhieu tam trang",
+    price: 69.000,
+    countInStock: 0,
+    rating: 0,
+    numReviews: 0,
+  },
+  {
+    name: "Tôm chiên",
+    image: "/images/1.jpg",
+    description:
+      "Tôm chiên cho nguoi co nhieu tam trang",
+    price: 69.000,
+    countInStock: 0,
+    rating: 0,
+    numReviews: 0,
+  },
 ];
 
 export default products;

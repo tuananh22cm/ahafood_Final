@@ -5,7 +5,7 @@ import Category from "../Models/CategoryModel.js";
 import Banner from "../Models/BannerModel.js";
 const categoryRouter = express.Router();
 
-// ADMIN GET ALL ORDERS
+// ADMIN GET ALL CATEGORY
 categoryRouter.get(
   "/all",
   asyncHandler(async (req, res) => {
@@ -56,7 +56,7 @@ categoryRouter.get(
   })
 );
 
-// CREATE ORDER
+// CREATE category
 categoryRouter.post(
   "/",
   asyncHandler(async (req, res) => {

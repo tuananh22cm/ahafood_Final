@@ -3,6 +3,9 @@ import asyncHandler from "express-async-handler";
 import Product from "./../Models/ProductModel.js";
 import { admin, protect } from "./../Middleware/AuthMiddleware.js";
 
+import { v2 as cloudinary } from 'cloudinary';
+
+import uploadCloud from "../config/uploader.js";
 const productRoute = express.Router();
 
 // GET ALL PRODUCT
@@ -120,24 +123,32 @@ productRoute.delete(
   })
 );
 
+//delete all
+productRoute.delete(
+  "/",
+  asyncHandler(async (req, res) => {
+    const product = await Product.findById({});
+    await product.deleteMany();
+   
+  })
+);
 // CREATE PRODUCT
 productRoute.post(
   "/",
-  protect,
-  admin,
+  // protect,
+  // admin,
+  uploadCloud.single("image"),
   asyncHandler(async (req, res) => {
+    const fileData=req.file
     const {
       name,
       price,
       description,
-      image,
-      countInStock,
-      loanPrice,
       category,
-      ma,
     } = req.body;
     const productExist = await Product.findOne({ name });
     if (productExist) {
+      if(fileData) cloudinary.uploader.destroy(fileData.filename)
       res.status(400);
       throw new Error("Product name already exist");
     } else {
@@ -145,19 +156,17 @@ productRoute.post(
         name,
         price,
         description,
-        image,
-        countInStock,
-        loanPrice,
-        user: req.user._id,
+        image:fileData?.path,
         category,
-        ma,
       });
       if (product) {
         const createdproduct = await product.save();
         res.status(201).json(createdproduct);
       } else {
+        if(fileData) cloudinary.uploader.destroy(fileData.filename)
         res.status(400);
         throw new Error("Invalid product data");
+
       }
     }
   })
@@ -174,10 +183,7 @@ productRoute.put(
       price,
       description,
       image,
-      countInStock,
-      loanPrice,
       category,
-      ma,
     } = req.body;
 
     console.log(category);
@@ -187,10 +193,7 @@ productRoute.put(
       product.price = price || product.price;
       product.description = description || product.description;
       product.image = image || product.image;
-      product.countInStock = countInStock || product.countInStock;
-      product.loanPrice = loanPrice || product.loanPrice;
       product.category = category || product.category;
-      product.ma = ma;
 
       const updatedProduct = await product.save();
       res.json(updatedProduct);
@@ -216,7 +219,7 @@ productRoute.get(
 );
 
 productRoute.get(
-  "/searchHere/:q",
+  "/category/:q",
   asyncHandler(async (req, res) => {
     const product = await Product.find({
       category: req.params.q,

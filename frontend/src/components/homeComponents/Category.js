@@ -20,7 +20,6 @@ const Category = () => {
   }, []);
 
   const redirectPage = (href) => {
-    // history.push(`/category/${href}`);
     setIdShow(href);
     setDialog(true);
   };

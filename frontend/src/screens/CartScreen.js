@@ -3,12 +3,14 @@ import Header from "./../components/Header";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart, removefromcart } from "./../Redux/Actions/cartActions";
+import showPrice from "../utils/showPrice";
 
 const CartScreen = ({ match, location, history }) => {
   window.scrollTo(0, 0);
   const dispatch = useDispatch();
   const productId = match.params.id;
   const qty = location.search ? Number(location.search.split("=")[1]) : 1;
+  console.log(qty)
 
   const cart = useSelector((state) => state.cart);
   const { cartItems } = cart;
@@ -29,12 +31,7 @@ const CartScreen = ({ match, location, history }) => {
     dispatch(removefromcart(id));
   };
 
-  const showPrice = (price) => {
-    return price.toLocaleString("it-IT", {
-      style: "currency",
-      currency: "VND",
-    });
-  };
+  
 
   return (
     <>
@@ -81,7 +78,10 @@ const CartScreen = ({ match, location, history }) => {
                 </div>
                 <div className="cart-qty col-md-2 col-sm-5 mt-md-5 mt-3 mt-md-0 d-flex flex-column justify-content-center">
                   <h6>Số lượng</h6>
-                  <select
+                  <input type="number" value={item.qty} onChange={(e) =>
+                      dispatch(addToCart(item.product, Number(e.target.value)))
+                    }/>
+                  {/* <select
                     value={item.qty}
                     onChange={(e) =>
                       dispatch(addToCart(item.product, Number(e.target.value)))
@@ -92,12 +92,12 @@ const CartScreen = ({ match, location, history }) => {
                         {x + 1}
                       </option>
                     ))}
-                  </select>
+                  </select> */}
                 </div>
                 <div className="cart-price mt-3 mt-md-0 col-md-2 align-items-sm-end align-items-start  d-flex flex-column justify-content-center col-sm-7">
                   <h6>Đơn giá</h6>
                   <h4 style={{ fontSize: "16px" }}>
-                    Khi mua : {showPrice(item.price)}
+                     {showPrice(item.price*item.qty)}
                   </h4>
                 </div>
               </div>

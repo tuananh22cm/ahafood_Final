@@ -10,10 +10,16 @@ import pdfRoutes from "./Routes/PdfRoutes.js";
 import cors from "cors";
 import bodyParser from "body-parser";
 import categoryRouter from "./Routes/categoryRoutes.js";
+import helmet from "helmet";
 
 dotenv.config();
 connectDatabase();
 const app = express();
+app.use(helmet({
+  referrerPolicy: {
+    policy: 'no-referrer'
+  }
+}));
 app.use(
   bodyParser.urlencoded({
     extended: true,
@@ -21,7 +27,10 @@ app.use(
   })
 );
 app.use(bodyParser.json({ limit: "50mb" }));
-app.use(cors());
+app.use(cors({
+  credentials: false,
+  origin: ['http://localhost:3000']
+}));
 app.use(express.static("public"));
 
 // API

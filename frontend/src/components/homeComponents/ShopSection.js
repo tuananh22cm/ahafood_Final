@@ -10,6 +10,7 @@ import Category from "./Category";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import Slide from "./Slide";
+import showPrice from "../../utils/showPrice";
 
 const ShopSection = (props) => {
   const { keyword, pagenumber } = props;
@@ -18,11 +19,14 @@ const ShopSection = (props) => {
   const [pr, setPr] = useState([]);
 
   const productList = useSelector((state) => state.productList);
+  console.log(productList)
   const { loading, error, products, page, pages } = productList;
+  console.log(loading,error,products, page,pages)
 
   useEffect(async () => {
     if (item) {
-      const res = await axios.get(`/api/products/searchHere/${item}`);
+      console.log(item)
+      const res = await axios.get(`/api/products/category/${item}`);
       if (res.status === 200) {
         setPr(res.data);
       }
@@ -31,12 +35,7 @@ const ShopSection = (props) => {
     }
   }, [dispatch, keyword, pagenumber, item]);
 
-  const showPrice = (price) => {
-    return price.toLocaleString("it-IT", {
-      style: "currency",
-      currency: "VND",
-    });
-  };
+
 
   return (
     <>

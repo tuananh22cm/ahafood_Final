@@ -13,6 +13,7 @@ import Loading from "../components/LoadingError/Loading";
 import { PRODUCT_CREATE_REVIEW_RESET } from "../Redux/Constants/ProductConstants";
 import moment from "moment";
 import { toast } from "react-toastify";
+import showPrice from "../utils/showPrice";
 
 const SingleProduct = ({ history, match }) => {
   const [qty, setQty] = useState(1);
@@ -45,6 +46,7 @@ const SingleProduct = ({ history, match }) => {
 
   const AddToCartHandle = (e) => {
     e.preventDefault();
+    console.log(qty)
     history.push(`/cart/${productId}?qty=${qty}`);
   };
 
@@ -55,7 +57,6 @@ const SingleProduct = ({ history, match }) => {
       name: product.name,
       img: product.image,
       price: product.price,
-      quantity: 1
     }
 
     if (store) {      
@@ -86,12 +87,6 @@ const SingleProduct = ({ history, match }) => {
     );
   };
 
-  const showPrice = (price) => {
-    return price.toLocaleString("it-IT", {
-      style: "currency",
-      currency: "VND",
-    });
-  };
   return (
     <>
       <Header />
@@ -121,20 +116,6 @@ const SingleProduct = ({ history, match }) => {
                       <h6>Giá Mua </h6>
                       <span>{product.price && showPrice(product.price)}</span>
                     </div>
-                    {/* <div className="flex-box d-flex justify-content-between align-items-center">
-                      <h6 style={{ color: "red" }}>Giá Thuê </h6>
-                      <span>
-                        {product.loanPrice && showPrice(product.loanPrice)}
-                      </span>
-                    </div> */}
-                    <div className="flex-box d-flex justify-content-between align-items-center">
-                      <h6>Trạng thái</h6>
-                      {product.countInStock > 0 ? (
-                        <span>Số lượng tồn kho</span>
-                      ) : (
-                        <span>Hết hàng</span>
-                      )}
-                    </div>
                     <div className="flex-box d-flex justify-content-between align-items-center">
                       <h6>Đánh giá</h6>
                       <Rating
@@ -142,11 +123,11 @@ const SingleProduct = ({ history, match }) => {
                         text={`${product.numReviews} reviews`}
                       />
                     </div>
-                    {product.countInStock > 0 ? (
                       <>
                         <div className="flex-box d-flex justify-content-between align-items-center">
                           <h6>Số lượng</h6>
-                          <select
+                          <input type="number" value={qty} onChange={(e) => setQty(e.target.value)} />
+                          {/* <select
                             value={qty}
                             onChange={(e) => setQty(e.target.value)}
                           >
@@ -157,7 +138,7 @@ const SingleProduct = ({ history, match }) => {
                                 </option>
                               )
                             )}
-                          </select>
+                          </select> */}
                         </div>
                         <button
                           onClick={AddToCartHandle}
@@ -166,7 +147,6 @@ const SingleProduct = ({ history, match }) => {
                           Thanh toán
                             </button>                                                      
                       </>
-                    ) : null}
                   </div>
                 </div>
               </div>

@@ -51,6 +51,7 @@ const ShopSearchSection = () => {
 
                           <div className="shoptext">
                             <p>
+                              <h1>sdfghjkllkjssdfghjkllkjhgfdsdf</h1>
                               <Link to={`/products/${product._id}`}>
                                 {product.name}
                               </Link>
@@ -67,15 +68,6 @@ const ShopSearchSection = () => {
                             >
                               {showPrice(product.price)}
                             </h3>
-                            {/* <h3
-                              style={{
-                                float: "right",
-                                fontSize: "14px",
-                                color: "red",
-                              }}
-                            >
-                              Giá thuê : {showPrice(product.loanPrice)}
-                            </h3> */}
                           </div>
                         </div>
                       </div>

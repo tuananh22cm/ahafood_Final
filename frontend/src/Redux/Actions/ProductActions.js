@@ -12,6 +12,9 @@ import {
   PRODUCT_LIST_SEARCH_REQUEST,
   PRODUCT_LIST_SEARCH_SUCCESS,
   PRODUCT_LIST_SEARCH_FAIL,
+  PRODUCT_LIST_CATEGORY_REQUEST,
+  PRODUCT_LIST_CATEGORY_SUCCESS,
+  PRODUCT_LIST_CATEGORY_FAIL,
 } from "../Constants/ProductConstants";
 import { logout } from "./userActions";
 
@@ -24,6 +27,7 @@ export const listProduct =
       const { data } = await axios.get(
         `/api/products?keyword=${keyword}&pageNumber=${pageNumber}`
       );
+      console.log(data)
       dispatch({ type: PRODUCT_LIST_SUCCESS, payload: data });
     } catch (error) {
       dispatch({
@@ -44,6 +48,22 @@ export const listSearch = (type) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: PRODUCT_LIST_SEARCH_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+//by category
+export const listByCategory = (type) => async (dispatch) => {
+  try {
+    dispatch({ type: PRODUCT_LIST_CATEGORY_REQUEST });
+    const { data } = await axios.get(`/api/products/category/${type}`);
+    dispatch({ type: PRODUCT_LIST_CATEGORY_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: PRODUCT_LIST_CATEGORY_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

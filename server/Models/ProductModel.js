@@ -18,10 +18,6 @@ const reviewSchema = mongoose.Schema(
 
 const productSchema = mongoose.Schema(
   {
-    ma: {
-      type: String,
-      required: false,
-    },
     name: {
       type: String,
       required: true,
@@ -53,17 +49,7 @@ const productSchema = mongoose.Schema(
       type: Number,
       required: true,
       default: 0,
-    },
-    countInStock: {
-      type: Number,
-      required: true,
-      default: 0,
-    },
-    loanPrice: {
-      type: Number,
-      required: false,
-      default: 0,
-    },
+    }
   },
   {
     timestamps: true,

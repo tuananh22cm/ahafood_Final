@@ -3,6 +3,7 @@ import Header from "./../components/Header";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart, removefromcart } from "./../Redux/Actions/cartActions";
+import showPrice from "../utils/showPrice";
 
 const FavoriteScreen = ({ match, location, history }) => {
   const dispatch = useDispatch();
@@ -26,12 +27,7 @@ const FavoriteScreen = ({ match, location, history }) => {
     JSON.parse(localStorage.setItem("favorite", JSON.stringify(list)));
   };
 
-  const showPrice = (price) => {
-    return price.toLocaleString("it-IT", {
-      style: "currency",
-      currency: "VND",
-    });
-  };
+ 
 
   return (
     <>

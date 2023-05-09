@@ -11,7 +11,7 @@ const ContactInfo = () => {
             </div>
             <h5>Facebook</h5>
             <a href="">
-              <p>Phamacity Shop</p>
+              <p>Aha Food</p>
             </a>
           </div>
         </div>

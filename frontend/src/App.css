@@ -198,53 +198,6 @@ textarea:focus {
 }
 /* END OF SHOP */
 
-/* NEWSLATTER */
-.subscribe-section {
-  background: linear-gradient(0deg, rgba(0, 0, 0, 0.626), rgba(0, 0, 0, 0.226)),
-  url("./banner.jpg")
-    no-repeat scroll center / cover;
-  padding: 100px 0 100px;
-}
-.subscribe-head h2 {
-  color: #fff;
-  font-size: 30px;
-  letter-spacing: 0;
-  line-height: 30px;
-  margin: 0 0 13px;
-  text-transform: uppercase;
-}
-.subscribe-head p {
-  color: #fff;
-  font-size: 18px;
-  line-height: 22px;
-  margin: 0 0 39px;
-}
-.subscribe-head {
-  text-align: center;
-}
-.form-section input[type="email"] {
-  border: 0 none;
-  border-radius: 25px;
-  color: #9b9b9b;
-  font-size: 16px;
-  font-style: normal;
-  height: 51px;
-  letter-spacing: 0;
-  text-align: center;
-  width: 460px;
-}
-.form-section input[type="submit"] {
-  background: #1cb803;
-  border: 0 none;
-  border-radius: 25px;
-  color: #fff;
-  height: 52px;
-  letter-spacing: 0;
-  margin-left: -60px;
-  padding: 0 58px;
-  text-transform: uppercase;
-  font-size: 12px;
-}
 /* CONTACT */
 .contactInfo {
   padding: 70px 0;
@@ -669,19 +622,24 @@ textarea:focus {
 .menu-item{
   cursor: pointer;
   margin: 0 10px;
-  border: 1px solid;
   padding: 5px;
-  width: 100px;
+  width: 200px;
+  height: 80px;
   text-align: center;
-
+  background-color: #e3b04a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .menu-item-con{
   cursor: pointer;
   margin: 0 10px;
-  border: 1px solid;
+  color: #fff;
   padding: 5px;
   text-align: center;
+  background-color: #e49738;
+  padding: 10px;
 
 }
 
@@ -723,6 +681,7 @@ transform: translate(-50%, -50%);
 
 .menu-dialog{
   margin: 0;
+  background-color: #fff;
 }
 
 .loading{
