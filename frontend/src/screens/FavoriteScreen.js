@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Header from "./../components/Header";
+import Footer from "./../components/Footer";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart, removefromcart } from "./../Redux/Actions/cartActions";
@@ -21,10 +22,12 @@ const FavoriteScreen = ({ match, location, history }) => {
   };
 
   const removeFromCartHandle = (id) => {
-    const listFavorite = JSON.parse(localStorage.getItem("favorite"));
+      const listFavorite = JSON.parse(localStorage.getItem("favorite"));
+      console.log(listFavorite)
       const list = listFavorite.filter((item) => item.id !== id);
       setListStore(list);
-    JSON.parse(localStorage.setItem("favorite", JSON.stringify(list)));
+       localStorage.setItem("favorite", JSON.stringify(list));
+      
   };
 
  
@@ -36,7 +39,7 @@ const FavoriteScreen = ({ match, location, history }) => {
       <div className="container">
         {listStore?.length === 0 || !listStore ? (
           <div className=" alert alert-info text-center mt-3">
-            Hiện tại chưa có sản phẩm trong giỏ hàng
+            Hiện tại chưa có sản phẩm trong danh sách yêu thích
             <Link
               className="btn btn-success mx-5 px-5 py-3"
               to="/"
@@ -44,7 +47,7 @@ const FavoriteScreen = ({ match, location, history }) => {
                 fontSize: "12px",
               }}
             >
-              Mua hàng ngay....
+              Order ngay....
             </Link>
           </div>
         ) : (
@@ -101,6 +104,7 @@ const FavoriteScreen = ({ match, location, history }) => {
           </>
         )}
       </div>
+      <Footer></Footer>
     </>
   );
 };

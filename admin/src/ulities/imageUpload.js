@@ -17,14 +17,14 @@ export const imageUpload = async (image) => {
   const formData = new FormData();
 
   formData.append("file", image);
-  formData.append("upload_preset", "ncpanat5");
-  formData.append("cloud_name", "khanhbatluc");
+  formData.append("upload_preset", "fvn4rixt");
+  formData.append("cloud_name", "da0p2bvuj");
 
   const res = await fetch(
-    "https://api.cloudinary.com/v1_1/khanhbatluc/auto/upload",
+    "https://api.cloudinary.com/v1_1/da0p2bvuj/image/upload",
     {
       method: "POST",
-      body: formData,
+      body: formData
     }
   );
 

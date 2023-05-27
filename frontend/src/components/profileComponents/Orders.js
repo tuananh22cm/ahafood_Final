@@ -50,13 +50,20 @@ const Orders = (props) => {
                           {order._id}
                         </a>
                       </td>
-                      <td>{order.isPaid ? <>Thanh toán</> : <>Không thanh toán</>}</td>
+                      <td>
+                        {order.isDelivered ? (
+                          <>Hoàn Thành </>
+                        ) : (
+                          <>Chưa Hoàn Thành</>
+                        )}
+                      </td>
                       <td>
                         {order.isPaid
                           ? moment(order.paidAt).calendar()
-                          : moment(order.createdAt).calendar()}
+                          : moment(order.createdAt).calendar()
+                          }
                       </td>
-                      <td>{order.totalPrice}.000 vnđ</td>
+                      <td>{order.totalPrice} vnđ</td>
                     </tr>
                   ))}
                 </tbody>

@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import Header from "./../components/Header";
+import Footer from "./../components/Footer";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart, removefromcart } from "./../Redux/Actions/cartActions";
@@ -30,7 +31,7 @@ const CartScreen = ({ match, location, history }) => {
   const removeFromCartHandle = (id) => {
     dispatch(removefromcart(id));
   };
-
+  
   
 
   return (
@@ -78,6 +79,11 @@ const CartScreen = ({ match, location, history }) => {
                 </div>
                 <div className="cart-qty col-md-2 col-sm-5 mt-md-5 mt-3 mt-md-0 d-flex flex-column justify-content-center">
                   <h6>Số lượng</h6>
+                  {/* <div className="ProductInfor__amount-input">
+                          <button onClick={handleIncrease}>-</button>
+                          <input type="text" value={item.qty} />
+                          <button onClick={handleDecrease}>+</button>
+                        </div> */}
                   <input type="number" value={item.qty} onChange={(e) =>
                       dispatch(addToCart(item.product, Number(e.target.value)))
                     }/>
@@ -115,13 +121,14 @@ const CartScreen = ({ match, location, history }) => {
               </Link>
               {total > 0 && (
                 <div className="col-md-4 d-flex justify-content-md-end mt-3 mt-md-0">
-                  <button onClick={checkOutHandler}>Thanh toán ngay</button>
+                  <button onClick={checkOutHandler}>Order Ngay</button>
                 </div>
               )}
             </div>
           </>
         )}
       </div>
+      <Footer></Footer>
     </>
   );
 };

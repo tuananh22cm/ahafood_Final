@@ -89,13 +89,7 @@ const UserComponent = () => {
                           <a href={`mailto:${user.email}`}>{user.email}</a>
                         </p>
 
-                        <div className="row">
-                          {/* <Link
-                            to={`/users/${user._id}/edit`}
-                            className="btn btn-sm btn-outline-success p-2 pb-3 col-md-6"
-                          >
-                            <i className="fas fa-pen"></i>
-                          </Link> */}
+                        <div className="row d-flex justify-content-center">
                           <Link
                             to="#"
                             onClick={() => deletehandler(user._id)}

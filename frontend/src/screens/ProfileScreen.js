@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Header from "../components/Header";
+import Footer from "../components/Footer";
 import ProfileTabs from "../components/profileComponents/ProfileTabs";
 import { getUserDetails } from "../Redux/Actions/userActions";
 import Orders from "./../components/profileComponents/Orders";
@@ -16,7 +17,7 @@ const ProfileScreen = () => {
   const { userInfo } = userLogin;
   const orderListMy = useSelector((state) => state.orderListMy);
   const { loading, error, orders } = orderListMy;
-
+  console.log(userInfo)
   useEffect(() => {
     dispatch(listMyOrders());
     dispatch(getUserDetails("profile"));
@@ -32,11 +33,11 @@ const ProfileScreen = () => {
               <div className="author-card-cover"></div>
               <div className="author-card-profile row">
                 <div className="author-card-avatar col-md-5">
-                  <img src="./images/logo-mb.png" alt="userprofileimage" />
+                  <img src={userInfo.avatar} alt="userprofileimage" />
                 </div>
                 <div className="author-card-details col-md-7">
                   <h5 className="author-card-name mb-2">
-                    <strong>{userInfo.name}</strong>
+                    <strong>{userInfo.avatar}</strong>
                   </h5>
                   <span className="author-card-position">
                     <>
@@ -108,6 +109,7 @@ const ProfileScreen = () => {
           </div>
         </div>
       </div>
+      <Footer></Footer>
     </>
   );
 };

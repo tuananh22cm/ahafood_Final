@@ -11,10 +11,11 @@ import {
 } from "./Reducers/ProductReducers";
 import {
   orderDeliveredReducer,
+  orderPayReducer,
   orderDetailsReducer,
   orderListReducer,
 } from "./Reducers/OrderReducres";
-
+import {transactionListReducer} from "./Reducers/TransactionReducer"
 import {
   pdfCreateReducer,
   pdfDeleteReducer,
@@ -34,6 +35,8 @@ const reducer = combineReducers({
   orderList: orderListReducer,
   orderDetails: orderDetailsReducer,
   orderDeliver: orderDeliveredReducer,
+  orderPay:orderPayReducer,
+  transactionList:transactionListReducer,
   pdfList: pdfListReducer,
   pdfDelete: pdfDeleteReducer,
   pdfCreate: pdfCreateReducer,

@@ -16,6 +16,11 @@ const userSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    avatar:{
+      type:String,
+      require:false,
+      default:'https://asset.cloudinary.com/da0p2bvuj/fb8a26ac3359cae8d56a6d7317255d96'
+    },
     isAdmin: {
       type: Boolean,
       required: true,

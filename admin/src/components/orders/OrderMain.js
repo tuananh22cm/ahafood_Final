@@ -19,7 +19,7 @@ const OrderMain = () => {
   useEffect(async () => {
     if (isSearch == 1) {
       try {
-        const data = await axios.get(`${URL}/api/orders/search/${search}`);
+        const data = await axios.get(`http://localhost:4000/api/orders/search/${search}`);
         if (data.status === 200) {
           setData(data.data.docs);
         }
@@ -31,9 +31,8 @@ const OrderMain = () => {
     if (isSearch == 2) {
       // status
       try {
-        const data = await axios.get(`${URL}/api/orders/status/${search1}`);
+        const data = await axios.get(`http://localhost:4000/api/orders/status/${search1}`);
         if (data.status === 200) {
-          // console.log(data);
           setData(data.data);
         }
       } catch (error) {
@@ -42,11 +41,9 @@ const OrderMain = () => {
     }
 
     if (isSearch == 3) {
-      // status
       try {
         const data = await axios.get(`${URL}/api/orders/option/${search2}`);
         if (data.status === 200) {
-          // console.log(data);
           setData(data.data);
         }
       } catch (error) {

@@ -10,7 +10,7 @@ const OrderDetailInfo = (props) => {
             <i className="text-success fas fa-user"></i>
           </span>
           <div className="text">
-            <h6 className="mb-1">Customer</h6>
+            <h6 className="mb-1">Khách Hàng</h6>
             <p className="mb-1">
               {order.user.name} <br />
               <a href={`mailto:${order.user.email}`}>{order.user.email}</a>
@@ -26,9 +26,9 @@ const OrderDetailInfo = (props) => {
           <div className="text">
             <h6 className="mb-1">Thông tin đơn hàng</h6>
             <p className="mb-1">
-              Shipping: {order.shippingAddress.country} <br /> Hình thức thanh
+              Shipping: {order.shippingAddress.address} <br /> Hình thức thanh
               toán:{" "}
-              {order.paymentMethod == "Credit" ? "Khi nhận hàng" : "Paypal"}
+              {order.paymentMethod == "direct" ? "Khi nhận hàng" : "online"}
             </p>
           </div>
         </article>
@@ -44,7 +44,6 @@ const OrderDetailInfo = (props) => {
               Địa chỉ: {order.shippingAddress.city}
               <br />
               {order.shippingAddress.address}
-              <br /> {order.shippingAddress.postalCode}
             </p>
           </div>
         </article>

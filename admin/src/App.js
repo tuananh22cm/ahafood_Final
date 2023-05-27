@@ -22,6 +22,7 @@ import PdfScreen from "./screens/pdfScreen";
 import AddUser from "./screens/AddUser";
 import AddPdf from "./screens/AddPdf";
 import PdfEditScreen from "./screens/PdfEditScreen";
+import TransactionScreen from "./screens/TransactionScreen";
 import PDF from "./components/PDF";
 import SlideScreen from "./screens/SlideScreen";
 
@@ -50,12 +51,8 @@ function App() {
           <PrivateRouter path="/addproduct" component={AddProduct} />
           <PrivateRouter path="/users" component={UsersScreen} />
           <PrivateRouter path="/adduser" component={AddUser} />
+          <PrivateRouter path="/transaction" component={TransactionScreen} />
           <PrivateRouter path="/slide" component={SlideScreen} />
-          {/* pdf router */}
-          {/* <PrivateRouter path="/pdf" component={PdfScreen} />
-          <PrivateRouter path="/showpdf/:id" component={PDF} />
-          <PrivateRouter path="/addpdf" component={AddPdf} />
-          <PrivateRouter path="/pdfs/:id/edit" component={PdfEditScreen} /> */}
           <PrivateRouter
             path="/product/:id/edit"
             component={ProductEditScreen}

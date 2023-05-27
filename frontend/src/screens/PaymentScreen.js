@@ -13,7 +13,7 @@ const PaymentScreen = ({ history }) => {
     history.push("/shipping");
   }
 
-  const [paymentMethod, setPaymentMethod] = useState("PayPal");
+  const [paymentMethod, setPaymentMethod] = useState("direct");
 
   const dispatch = useDispatch();
 
@@ -32,23 +32,27 @@ const PaymentScreen = ({ history }) => {
         >
           <h6>Lựa chọn hình thức thanh toán</h6>
           <div className="payment-container">
+
+            {/* online  */}
             <div className="radio-container">
               <input
                 className="form-check-input"
                 type="checkbox"
-                checked={paymentMethod === "Paypal" ? true : false}
-                onChange={(e) => setPaymentMethod("Paypal")}
+                checked={paymentMethod === "online" ? true : false}
+                onChange={(e) => setPaymentMethod("online")}
               />
               <label className="form-check-label">
-                Thanh toán bằng Paypal hoặc thẻ tín dụng / thẻ ghi nợ
+                Thanh Toán Trực Tuyến
               </label>
+
+            {/* direct  */}
             </div>
             <div className="radio-container">
               <input
                 className="form-check-input"
                 type="checkbox"
-                checked={paymentMethod === "Credit" ? true : false}
-                onChange={(e) => setPaymentMethod("Credit")}
+                checked={paymentMethod === "direct" ? true : false}
+                onChange={(e) => setPaymentMethod("direct")}
               />
               <label className="form-check-label">
                 Thanh toán khi nhận hàng

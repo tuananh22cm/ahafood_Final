@@ -84,7 +84,7 @@ const Header = () => {
                       </button>
                       <div className="dropdown-menu">
                         <Link className="dropdown-item" to="/profile">
-                          Profile
+                          Trang cá nhân
                         </Link>
 
                         <Link
@@ -92,7 +92,7 @@ const Header = () => {
                           to="#"
                           onClick={logoutHandler}
                         >
-                          Logout
+                          Đăng xuất
                         </Link>
                       </div>
                     </div>
@@ -174,7 +174,7 @@ const Header = () => {
                       aria-haspopup="true"
                       aria-expanded="false"
                     >
-                      Xin chào, {userInfo.email}
+                      Xin chào, {userInfo.name}
                     </button>
                     <div className="dropdown-menu">
                       <Link className="dropdown-item" to="/profile">

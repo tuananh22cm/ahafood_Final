@@ -14,6 +14,13 @@ import {
   ORDER_PAY_REQUEST,
   ORDER_PAY_RESET,
   ORDER_PAY_SUCCESS,
+  ORDER_DELIVERY_REQUEST,
+  ORDER_DELIVERY_FAIL,
+  ORDER_DELIVERY_SUCCESS,
+  ORDER_PAYVN_FAIL,
+  ORDER_PAYVN_REQUEST,
+  ORDER_PAYVN_RESET,
+  ORDER_PAYVN_SUCCESS,
 } from "../Constants/OrderConstants";
 
 // CREATE ORDER
@@ -64,6 +71,36 @@ export const orderPayReducer = (state = {}, action) => {
       return state;
   }
 };
+
+//ORDER DELIVERY
+export const orderDeliveryReducer = (state = {}, action) => {
+  switch (action.type) {
+    case ORDER_DELIVERY_REQUEST:
+      return { loading: true };
+    case ORDER_DELIVERY_SUCCESS:
+      return { loading: false, order: action.payload };
+    case ORDER_DELIVERY_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+// // ORDER VNPAY
+// export const orderPayVNReducer = (state = {}, action) => {
+//   switch (action.type) {
+//     case ORDER_PAYVN_REQUEST:
+//       return { loading: true };
+//     case ORDER_PAYVN_SUCCESS:
+//       return { loading: false, success: true };
+//     case ORDER_PAYVN_FAIL:
+//       return { loading: false, error: action.payload };
+//     case ORDER_PAYVN_RESET:
+//       return {};
+//     default:
+//       return state;
+//   }
+// };
 
 // USER ORDERS
 export const orderListMyReducer = (state = { orders: [] }, action) => {

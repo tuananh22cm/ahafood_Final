@@ -3,6 +3,9 @@ import asyncHandler from "express-async-handler";
 import { admin, protect } from "../Middleware/AuthMiddleware.js";
 import Order from "./../Models/OrderModel.js";
 import User from "../Models/UserModel.js";
+import crypto from 'crypto'
+import moment from 'moment'
+import querystring from 'qs'
 
 const orderRouter = express.Router();
 
@@ -19,7 +22,6 @@ orderRouter.post(
       taxPrice,
       shippingPrice,
       totalPrice,
-      typePay,
     } = req.body;
 
     if (orderItems && orderItems.length === 0) {
@@ -36,7 +38,6 @@ orderRouter.post(
         taxPrice,
         shippingPrice,
         totalPrice,
-        typePay,
       });
 
       const createOrder = await order.save();
@@ -110,19 +111,17 @@ orderRouter.put(
   })
 );
 
-// ORDER IS PAID
+// ORDER IS delivered
 orderRouter.put(
   "/:id/delivered",
-  protect,
+  // protect,
   asyncHandler(async (req, res) => {
     const { status } = req.body;
     const order = await Order.findById(req.params.id);
-
     if (order) {
       order.isDelivered = true;
       order.deliveredAt = Date.now();
       order.status = status;
-
       const updatedOrder = await order.save();
       res.json(updatedOrder);
     } else {
@@ -308,5 +307,6 @@ orderRouter.get(
     });
   })
 );
+
 
 export default orderRouter;

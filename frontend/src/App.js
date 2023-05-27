@@ -21,6 +21,7 @@ import SinglePdf from "./screens/SinglePdf";
 import PDF from "./components/PDF";
 import SearchProduct from "./screens/SearchProduct";
 import FavoriteScreen from "./screens/FavoriteScreen";
+import StatusScreen from "./screens/StatusScreen";
 
 const App = () => {
   return (
@@ -39,7 +40,6 @@ const App = () => {
       />
       <Switch>
         <Route path="/" component={HomeScreen} exact />
-        <Route path="/search/:keyword" component={HomeScreen} exact />
         <Route path="/category/:item" component={HomeScreen} exact />
         <Route path="/search/:keyword" component={HomeScreen} exact />
         <Route path="/page/:pagenumber" component={HomeScreen} exact />
@@ -49,8 +49,6 @@ const App = () => {
           exact
         />
         <Route path="/products/:id" component={SingleProduct} />
-        {/* <Route path="/pdf/:id" component={SinglePdf} />
-        <PrivateRouter path="/showpdf/:id" component={PDF} /> */}
         <PrivateRouter path="/search/:param" component={SearchProduct} />
         <Route path="/login" component={Login} />
         <Route path="/register" component={Register} />
@@ -60,8 +58,9 @@ const App = () => {
         <PrivateRouter path="/shipping" component={ShippingScreen} />
         <PrivateRouter path="/payment" component={PaymentScreen} />
         <PrivateRouter path="/placeorder" component={PlaceOrderScreen} />
+        <PrivateRouter path="/transaction/vnpay_response" component={StatusScreen} />
+        {/* <PrivateRouter path="/transaction/vnpay_ipn" component={detailScreen} /> */}
         <PrivateRouter path="/order/:id" component={OrderScreen} />
-        {/*<Route path="/pdf" component={PdfFileScreen} /> */}
         <Route path="*" component={NotFound} />
       </Switch>
       <ToastContainer />

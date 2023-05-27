@@ -36,7 +36,7 @@ export const login = (email, password) => async (dispatch) => {
     };
 
     const { data } = await axios.post(
-      `${URL}/api/users/login`,
+      `/api/users/login`,
       { email, password },
       config
     );
@@ -88,7 +88,7 @@ export const listUser = () => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get(`${URL}/api/users`, config);
+    const { data } = await axios.get(`/api/users`, config);
 
     dispatch({ type: USER_LIST_SUCCESS, payload: data });
   } catch (error) {
@@ -124,7 +124,7 @@ export const createUser =
       };
 
       const { data } = await axios.post(
-        `${URL}/api/users/`,
+        `/api/users/`,
         { name, email, password},
         config
       );
@@ -161,7 +161,7 @@ export const deleteUser = (email) => async (dispatch, getState) => {
       },
     };
 
-    await axios.delete(`${URL}/api/users/${email}`, config);
+    await axios.delete(`/api/users/${email}`, config);
 
     dispatch({ type: USER_DELETE_SUCCESS });
   } catch (error) {

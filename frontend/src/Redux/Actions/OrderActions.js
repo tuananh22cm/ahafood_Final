@@ -11,6 +11,9 @@ import {
   ORDER_PAY_FAIL,
   ORDER_PAY_REQUEST,
   ORDER_PAY_SUCCESS,
+  ORDER_DELIVERY_FAIL,
+  ORDER_DELIVERY_REQUEST,
+  ORDER_DELIVERY_SUCCESS,
 } from "../Constants/OrderConstants";
 import axios from "axios";
 import { CART_CLEAR_ITEMS } from "../Constants/CartConstants";
@@ -68,7 +71,6 @@ export const getOrderDetails = (id) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.get(`/api/orders/${id}`, config);
-    console.log("action data ", data);
     dispatch({ type: ORDER_DETAILS_SUCCESS, payload: data });
   } catch (error) {
     const message =
@@ -123,6 +125,61 @@ export const payOrder =
     }
   };
 
+//order delivered
+export const deliveryOrder =
+  (orderId) => async (dispatch, getState) => {
+    try {
+      dispatch({ type: ORDER_DELIVERY_REQUEST });
+
+      const {
+        userLogin: { userInfo },
+      } = getState();
+
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
+
+      const { data } = await axios.put(
+        `/api/orders/${orderId}/delivered`,
+        config
+      );
+      dispatch({ type: ORDER_DELIVERY_SUCCESS, payload: data });
+    } catch (error) {
+      const message =
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message;
+      if (message === "Not authorized, token failed") {
+        dispatch(logout());
+      }
+      dispatch({
+        type: ORDER_DELIVERY_FAIL,
+        payload: message,
+      });
+    }
+  };
+
+//pay vnpay
+// export const payOrderVN=()=>async(dispatch)=>{
+//   try {
+//     dispatch({ type: ORDER_PAY_REQUEST });
+//       const {
+//         userLogin: { userInfo },
+//       } = getState();
+//     const config = {
+//       headers: {
+//         Authorization: `Bearer ${userInfo.token}`,
+//       },
+//     };
+    
+//   } catch (error) {
+    
+//   }
+//     const { data } = await axios.post(`/api/vn_payment`, config);
+// } 
 // USER ORDERS
 export const listMyOrders = () => async (dispatch, getState) => {
   try {

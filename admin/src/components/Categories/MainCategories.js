@@ -137,11 +137,13 @@ const MainCategories = () => {
                       handleChangeForm("parentCategory", e.target.value)
                     }
                   >
-                    <option value="">-- default ---</option>
+                    <option value="">-- Chọn ---</option>
                     {listCategory.map((e) => (
+                      e.isParent?(
                       <option key={e.id} value={e._id}>
                         {e.name}
                       </option>
+                      ):(<></>)
                     ))}
                   </select>
                 </div>

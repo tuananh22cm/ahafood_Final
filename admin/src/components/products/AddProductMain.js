@@ -18,13 +18,11 @@ const ToastObjects = {
   autoClose: 2000,
 };
 const AddProductMain = () => {
-  const [ma, setMa] = useState("");
   const [name, setName] = useState("");
   const [price, setPrice] = useState(0);
-  const [countInStock, setCountInStock] = useState(0);
   const [description, setDescription] = useState("");
-  const [loanPrice, setLoanPrice] = useState(0);
   const [category, setCategory] = useState("");
+  const [isShow,setIsShow]=useState(true)
   const [listCategory, setListCategory] = useState([]);
   const [images, setImages] = useState({});
 
@@ -54,12 +52,10 @@ const AddProductMain = () => {
       dispatch({ type: PRODUCT_CREATE_RESET });
       setName("");
       setDescription("");
-      setCountInStock(0);
+      setIsShow(true)
       setImages("");
       setPrice(0);
-      setLoanPrice(0);
       setCategory("");
-      setMa("");
     }
   }, [product, dispatch]);
 
@@ -73,10 +69,8 @@ const AddProductMain = () => {
           price,
           description,
           image,
-          countInStock,
-          loanPrice,
           category,
-          ma
+          isShow
         )
       );
     }
@@ -129,20 +123,6 @@ const AddProductMain = () => {
                   {loading && <Loading />}
                   <div className="mb-4">
                     <label htmlFor="product_title" className="form-label">
-                      Mã Đại Diện
-                    </label>
-                    <input
-                      type="text"
-                      placeholder="Type here"
-                      className="form-control"
-                      id="product_title"
-                      required
-                      value={ma}
-                      onChange={(e) => setMa(e.target.value)}
-                    />
-                  </div>
-                  <div className="mb-4">
-                    <label htmlFor="product_title" className="form-label">
                       Tiêu đề
                     </label>
                     <input
@@ -185,17 +165,16 @@ const AddProductMain = () => {
                   </div>
                   <div className="mb-4">
                     <label htmlFor="product_price" className="form-label">
-                      Tồn kho
+                      Hiển Thị
                     </label>
-                    <input
-                      type="number"
-                      placeholder="Type here"
+                    <select
                       className="form-control"
-                      id="product_price"
-                      required
-                      value={countInStock}
-                      onChange={(e) => setCountInStock(e.target.value)}
-                    />
+                      onChange={(e) => setIsShow(e.target.value)}
+                    >
+                      <option value=""></option>
+                        <option value="true">Hiển Thị</option>
+                        <option value="false">Ẩn</option>
+                    </select>
                   </div>
                   <div className="mb-4">
                     <label className="form-label">Mô tả</label>
@@ -209,15 +188,6 @@ const AddProductMain = () => {
                     ></textarea>
                   </div>
                   <div className="mb-4">
-                    {/* <label className="form-label">Hình ảnh</label>
-                    <input
-                      className="form-control"
-                      type="text"
-                      placeholder="Enter Image URL"
-                      value={image}
-                      required
-                      onChange={(e) => setImage(e.target.value)}
-                    /> */}
                     <input
                       className="form-control mt-3"
                       type="file"

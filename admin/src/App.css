@@ -12,6 +12,13 @@ INCLUDE STYLES AND COMPONENTS
 .table-lg th {
   padding: 0.8rem 1rem;
 }
+.paid{
+  cursor: pointer;
+  transition: .5s;
+}
+.paid:hover{
+  transform: scale(1.1);
+}
 tbody td {
   border-bottom: 0;
 }

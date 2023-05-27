@@ -1,18 +1,22 @@
 import express from "express";
 import asyncHandler from "express-async-handler";
 import Product from "./../Models/ProductModel.js";
+import Order from "./../Models/OrderModel.js";
 import { admin, protect } from "./../Middleware/AuthMiddleware.js";
 
 import { v2 as cloudinary } from 'cloudinary';
+import sendMail from '../utils/mailer.js'
 
 import uploadCloud from "../config/uploader.js";
+import buyOk from "../Middleware/buyOk.js";
 const productRoute = express.Router();
 
 // GET ALL PRODUCT
 productRoute.get(
   "/",
   asyncHandler(async (req, res) => {
-    const pageSize = 12;
+    // Product.collection.updateMany({}, {$unset: {"fieldName": 1}})
+    const pageSize = 18;
     const page = Number(req.query.pageNumber) || 1;
     const keyword = req.query.keyword
       ? {
@@ -26,7 +30,7 @@ productRoute.get(
     const products = await Product.find({ ...keyword })
       .limit(pageSize)
       .skip(pageSize * (page - 1))
-      .sort({ _id: -1 });
+      .sort({ _id: 1 });
     res.json({ products, page, pages: Math.ceil(count / pageSize) });
   })
 );
@@ -54,6 +58,14 @@ productRoute.get(
   })
 );
 
+//get love product
+productRoute.get("/loving",asyncHandler(async(req,res)=>{
+  const products=await Product.find({
+  }).limit(4).sort({rating:-1})
+  res.json(products)
+}))
+
+
 // GET SINGLE PRODUCT
 productRoute.get(
   "/:id",
@@ -68,6 +80,7 @@ productRoute.get(
   })
 );
 
+
 // PRODUCT REVIEW
 productRoute.post(
   "/:id/review",
@@ -75,14 +88,15 @@ productRoute.post(
   asyncHandler(async (req, res) => {
     const { rating, comment } = req.body;
     const product = await Product.findById(req.params.id);
-
     if (product) {
+      const alreadyBuy=Order.findById(req.user._id.toString())
+      console.log(alreadyBuy)
       const alreadyReviewed = product.reviews.find(
         (r) => r.user.toString() === req.user._id.toString()
       );
       if (alreadyReviewed) {
         res.status(400);
-        throw new Error("Product already Reviewed");
+        throw new Error("Bạn đã đánh giá Món này rồi");
       }
       const review = {
         name: req.user.name,
@@ -144,10 +158,13 @@ productRoute.post(
       name,
       price,
       description,
+      image,
       category,
+      isShow,
     } = req.body;
     const productExist = await Product.findOne({ name });
     if (productExist) {
+      console.log(fileData)
       if(fileData) cloudinary.uploader.destroy(fileData.filename)
       res.status(400);
       throw new Error("Product name already exist");
@@ -156,8 +173,9 @@ productRoute.post(
         name,
         price,
         description,
-        image:fileData?.path,
+        image,
         category,
+        isShow
       });
       if (product) {
         const createdproduct = await product.save();
@@ -184,6 +202,7 @@ productRoute.put(
       description,
       image,
       category,
+      isShow
     } = req.body;
 
     console.log(category);
@@ -194,6 +213,7 @@ productRoute.put(
       product.description = description || product.description;
       product.image = image || product.image;
       product.category = category || product.category;
+      product.isShow = category || product.isShow;
 
       const updatedProduct = await product.save();
       res.json(updatedProduct);

@@ -11,6 +11,8 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import Slide from "./Slide";
 import showPrice from "../../utils/showPrice";
+import ScrollToTop from "../../utils/ScrollToTop"; 
+import Card from '../common/Card/index'
 
 const ShopSection = (props) => {
   const { keyword, pagenumber } = props;
@@ -19,9 +21,7 @@ const ShopSection = (props) => {
   const [pr, setPr] = useState([]);
 
   const productList = useSelector((state) => state.productList);
-  console.log(productList)
   const { loading, error, products, page, pages } = productList;
-  console.log(loading,error,products, page,pages)
 
   useEffect(async () => {
     if (item) {
@@ -40,8 +40,9 @@ const ShopSection = (props) => {
   return (
     <>
       <div className="container">
-        <Category />
         <Slide />
+        <Category />
+        <ScrollToTop/>
         <div className="section">
           <div className="row">
             <div className="col-lg-12 col-md-12 article">
@@ -54,76 +55,14 @@ const ShopSection = (props) => {
                   <Message variant="alert-danger">{error}</Message>
                 ) : item ? (
                   <>
-                    {pr.map((product) => (
-                      <div
-                        className="shop col-lg-4 col-md-6 col-sm-6"
-                        key={product._id}
-                      >
-                        <div className="border-product">
-                          <Link to={`/products/${product._id}`}>
-                            <div className="shopBack">
-                              <img src={product.image} alt={product.name} />
-                            </div>
-                          </Link>
-
-                          <div className="shoptext">
-                            <p>
-                              <Link to={`/products/${product._id}`}>
-                                {product.name} - {product.ma}
-                              </Link>
-                            </p>
-
-                            <Rating
-                              value={product.rating}
-                              text={`${product.numReviews} reviews`}
-                            />
-                            <h3
-                              style={{
-                                display: "inline-block",
-                              }}
-                            >
-                              {showPrice(product.price)}
-                            </h3>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
+                    {pr.map((product) =>
+                    (product.isShow ? (<Card product={product}/>) : <></>)
+                    )}
                   </>
                 ) : (
                   <>
                     {products.map((product) => (
-                      <div
-                        className="shop col-lg-4 col-md-6 col-sm-6"
-                        key={product._id}
-                      >
-                        <div className="border-product">
-                          <Link to={`/products/${product._id}`}>
-                            <div className="shopBack">
-                              <img src={product.image} alt={product.name} />
-                            </div>
-                          </Link>
-
-                          <div className="shoptext">
-                            <p>
-                              <Link to={`/products/${product._id}`}>
-                                {product.name} - {product.ma}
-                              </Link>
-                            </p>
-
-                            <Rating
-                              value={product.rating}
-                              text={`${product.numReviews} reviews`}
-                            />
-                            <h3
-                              style={{
-                                display: "inline-block",
-                              }}
-                            >
-                              {showPrice(product.price)}
-                            </h3>
-                          </div>
-                        </div>
-                      </div>
+                    (product.isShow ? (<Card product={product}/>) : <></>)
                     ))}
                   </>
                 )}

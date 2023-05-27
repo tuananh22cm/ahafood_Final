@@ -4,7 +4,7 @@ const reviewSchema = mongoose.Schema(
   {
     name: { type: String, required: true },
     rating: { type: Number, required: true },
-    comment: { type: String, required: true },
+    comment: { type: String, required: false },
     user: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
@@ -49,6 +49,11 @@ const productSchema = mongoose.Schema(
       type: Number,
       required: true,
       default: 0,
+    },
+    isShow:{
+      type:Boolean,
+      required:false,
+      default:true
     }
   },
   {
@@ -57,7 +62,5 @@ const productSchema = mongoose.Schema(
 );
 
 productSchema.index({ name: "text" });
-
 const Product = mongoose.model("Product", productSchema);
-
 export default Product;

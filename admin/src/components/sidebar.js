@@ -8,7 +8,7 @@ const Sidebar = () => {
         <div className="aside-top">
           <Link to="/" className="brand-wrap">
             <img
-              src="https://www.pharmacity.vn/images/pmc-logo.png"
+              src="https://yt3.googleusercontent.com/LmvbrWF4R7G5neK2adsSx3gwgdV7sbz5aG9MpRJSLRswvK5xYgt0kflRqPofKICdrgyRn95jVg=s900-c-k-c0x00ffffff-no-rj"
               style={{ height: "46" }}
               className="logo"
               alt="Ecommerce dashboard template"
@@ -98,7 +98,7 @@ const Sidebar = () => {
             <li className="menu-item">
               <NavLink
                 activeClassName="active"
-                className="menu-link disabled"
+                className="menu-link "
                 to="/transaction"
               >
                 <i className="icon fas fa-usd-circle"></i>

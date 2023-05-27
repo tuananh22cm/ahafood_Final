@@ -10,29 +10,28 @@ import pdfRoutes from "./Routes/PdfRoutes.js";
 import cors from "cors";
 import bodyParser from "body-parser";
 import categoryRouter from "./Routes/categoryRoutes.js";
-import helmet from "helmet";
+import TransactionRoute from "./Routes/transactionRoute.js";
 
 dotenv.config();
 connectDatabase();
 const app = express();
-app.use(helmet({
-  referrerPolicy: {
-    policy: 'no-referrer'
-  }
-}));
 app.use(
   bodyParser.urlencoded({
     extended: true,
     limit: "50mb",
   })
 );
-app.use(bodyParser.json({ limit: "50mb" }));
-app.use(cors({
-  credentials: false,
-  origin: ['http://localhost:3000']
-}));
-app.use(express.static("public"));
 
+app.use(bodyParser.json({ limit: "50mb" }));
+const allowOrigin=["http://localhost:4000","http://localhost:3000","*"]
+const corsOption={
+  origin:allowOrigin,
+  method:['PUT','GET','PATCH','DELETE','OPTIONS'],
+  optionsSuccessStatus:200,
+  credentials:true
+}
+app.use(cors(corsOption));
+app.use(express.static("public"));
 // API
 app.use("/api/pdf", pdfRoutes);
 app.use("/api/import", ImportData);
@@ -40,6 +39,7 @@ app.use("/api/products", productRoute);
 app.use("/api/users", userRouter);
 app.use("/api/orders", orderRouter);
 app.use("/api/category", categoryRouter);
+app.use("/api/transaction", TransactionRoute);
 app.get("/api/config/paypal", (req, res) => {
   res.send(process.env.PAYPAL_CLIENT_ID);
 });

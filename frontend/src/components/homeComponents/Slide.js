@@ -17,7 +17,8 @@ const Slide = () => {
   }, []);
 
   return (
-    <Carousel>
+    
+    <Carousel className="mb-5">
       {items.map((item) => (
         <div key={item.id}>
           <a href={item.linkPage} target="_blank">

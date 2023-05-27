@@ -1,49 +1,38 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { PaidOrder } from "../../Redux/Actions/OrderActions";
+import { useDispatch, useSelector } from "react-redux";
 
 const OrderDetailProducts = (props) => {
   const { order, loading } = props;
-
   if (!loading) {
     // Calculate Price
     const addDecimals = (num) => {
       return (Math.round(num * 100) / 100).toFixed(2);
     };
 
-    if (order.typePay === "loan") {
-      order.itemsPrice = addDecimals(
-        order.orderItems.reduce(
-          (acc, item) => acc + item.loanPrice * item.qty,
-          0
-        )
-      );
-    } else {
-      order.itemsPrice = addDecimals(
-        order.orderItems.reduce((acc, item) => acc + item.price * item.qty, 0)
-      );
-    }
+    order.itemsPrice = addDecimals(
+      order.orderItems.reduce((acc, item) => acc + item.price * item.qty, 0)
+    );
   }
-
-  const renderPrice = (qty, price, loanPrice, typePay) => {
+  const dispatch = useDispatch();
+  const handleIsPaid = () => {
+    dispatch(PaidOrder(order));
+    location.reload();
+  };
+  const renderPrice = (qty, price) => {
     let prices = "";
-    if (typePay === "buy") {
-      prices = price * qty;
-    } else {
-      prices = loanPrice * qty;
-    }
+    prices = price * qty;
     return prices.toLocaleString("it-IT", {
       style: "currency",
       currency: "VND",
     });
   };
 
-  const renderOnePrice = (price, loanPrice, typePay) => {
+  const renderOnePrice = (price) => {
     let prices = "";
-    if (typePay === "buy") {
-      prices = price;
-    } else {
-      prices = loanPrice;
-    }
+    prices = price;
+
     return prices.toLocaleString("it-IT", {
       style: "currency",
       currency: "VND",
@@ -78,12 +67,9 @@ const OrderDetailProducts = (props) => {
                 <div className="info">{item.name}</div>
               </Link>
             </td>
-            <td>{renderOnePrice(item.price, item.loanPrice, item.typePay)}</td>
+            <td>{renderOnePrice(item.price)}</td>
             <td>{item.qty} </td>
-            <td className="text-end">
-              {" "}
-              {renderPrice(item.qty, item.price, item.loanPrice, item.typePay)}
-            </td>
+            <td className="text-end"> {renderPrice(item.qty, item.price)}</td>
           </tr>
         ))}
 
@@ -108,16 +94,21 @@ const OrderDetailProducts = (props) => {
               <dl className="dlist">
                 <dt className="text-muted">Trạng thái:</dt>
                 <dd>
-                  {order.isPaid || order.paymentMethod == "Credit" ? (
-                    <span className="badge rounded-pill alert alert-success text-success">
-                      {order.paymentMethod === "Credit"
-                        ? "Thanh toán khi nhận hàng"
-                        : "Thanh toán thành công"}
+                  {order.isPaid ? (
+                    <span className="paid badge rounded-pill alert alert-success text-success ">
+                      Đã thanh toán
                     </span>
                   ) : (
-                    <span className="badge rounded-pill alert alert-danger text-danger">
-                      Chưa thanh toán
-                    </span>
+                    <>
+                      <span
+                        className="paid badge rounded-pill alert alert-danger text-danger"
+                        
+                      >
+                        Chưa Thanh Toán
+                      </span>
+                      <br />
+                      <button type="button" class="btn btn-warning" onClick={handleIsPaid}>Xác Nhận Đã Thanh Toán</button>
+                    </>
                   )}
                 </dd>
               </dl>

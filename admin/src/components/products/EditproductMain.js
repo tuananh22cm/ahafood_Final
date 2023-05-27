@@ -23,14 +23,11 @@ const ToastObjects = {
 
 const EditProductMain = (props) => {
   const { productId } = props;
-
-  const [ma, setMa] = useState("");
   const [name, setName] = useState("");
+  const [isShow,setIsShow]=useState(true);
   const [price, setPrice] = useState(0);
   const [images, setImages] = useState({});
-  const [countInStock, setCountInStock] = useState(0);
   const [description, setDescription] = useState("");
-  const [loanPrice, setLoanPrice] = useState(0);
   const [category, setCategory] = useState("");
   const [listCategory, setListCategory] = useState([]);
   const [preview, setPreview] = useState("");
@@ -69,7 +66,7 @@ const EditProductMain = (props) => {
   };
 
   useEffect(() => {
-    if (successUpdate) {
+    if (successUpdate) {  
       dispatch({ type: PRODUCT_UPDATE_RESET });
       toast.success("Product Updated", ToastObjects);
     } else {
@@ -77,13 +74,11 @@ const EditProductMain = (props) => {
         dispatch(editProduct(productId));
       } else {
         setName(product.name);
+        setIsShow(product.isShow);
         setDescription(product.description);
-        setCountInStock(product.countInStock);
         setPrice(product.price);
-        setLoanPrice(product.loanPrice);
         setCategory(product.category);
         setPreview(product.image);
-        setMa(product.ma);
       }
     }
   }, [product, dispatch, productId, successUpdate]);
@@ -96,13 +91,11 @@ const EditProductMain = (props) => {
         updateProduct({
           _id: productId,
           name,
+          isShow,
           price,
           description,
-          image,
-          countInStock,
-          loanPrice,
           category,
-          ma,
+          image,
         })
       );
     }
@@ -163,20 +156,6 @@ const EditProductMain = (props) => {
                     <>
                       <div className="mb-4">
                         <label htmlFor="product_title" className="form-label">
-                          Mã Đại Diện
-                        </label>
-                        <input
-                          type="text"
-                          placeholder="Type here"
-                          className="form-control"
-                          id="product_title"
-                          required
-                          value={ma}
-                          onChange={(e) => setMa(e.target.value)}
-                        />
-                      </div>
-                      <div className="mb-4">
-                        <label htmlFor="product_title" className="form-label">
                           Tiêu đề
                         </label>
                         <input
@@ -220,17 +199,17 @@ const EditProductMain = (props) => {
                       </div>
                       <div className="mb-4">
                         <label htmlFor="product_price" className="form-label">
-                          Tồn kho
+                          Hiển Thị
                         </label>
-                        <input
-                          type="number"
-                          placeholder="Type here"
+                        <select
                           className="form-control"
-                          id="product_price"
-                          required
-                          value={countInStock}
-                          onChange={(e) => setCountInStock(e.target.value)}
-                        />
+                          onChange={(e) => setIsShow(e.target.value)}
+                          value={isShow}
+                        >
+                          <option value=""></option>
+                            <option value="true">Hiển Thị</option>
+                            <option value="false">Ẩn</option>
+                        </select>
                       </div>
                       <div className="mb-4">
                         <label className="form-label">Description</label>

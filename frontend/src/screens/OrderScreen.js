@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect, useHistory } from "react-router-dom";
 import Header from "./../components/Header";
 import { PayPalButton } from "react-paypal-button-v2";
 import { useDispatch, useSelector } from "react-redux";
-import { getOrderDetails, payOrder } from "../Redux/Actions/OrderActions";
+import { deliveryOrder, getOrderDetails, payOrder } from "../Redux/Actions/OrderActions";
 import Loading from "./../components/LoadingError/Loading";
 import Message from "./../components/LoadingError/Error";
 import moment from "moment";
 import axios from "axios";
 import { ORDER_PAY_RESET } from "../Redux/Constants/OrderConstants";
+import showPrice from "../utils/showPrice";
+import { useLayoutEffect } from "react";
+
 
 const OrderScreen = ({ match }) => {
   window.scrollTo(0, 0);
@@ -18,6 +21,12 @@ const OrderScreen = ({ match }) => {
 
   const orderDetails = useSelector((state) => state.orderDetails);
   const { order, loading, error } = orderDetails;
+  console.log(order)
+  const handleDelivery=()=>{
+    dispatch(deliveryOrder(orderId))
+    order.isDelivered=true
+    location.reload();
+  }
   const orderPay = useSelector((state) => state.orderPay);
   const { loading: loadingPay, success: successPay } = orderPay;
 
@@ -26,21 +35,14 @@ const OrderScreen = ({ match }) => {
       return Math.round(num * 100) / 100;
     };
 
-    if (order.typePay === "loan") {
-      order.itemsPrice = addDecimals(
-        order.orderItems.reduce(
-          (acc, item) => acc + item.loanPrice * item.qty,
-          0
-        )
-      );
-    } else {
+   
       order.itemsPrice = addDecimals(
         order.orderItems.reduce((acc, item) => acc + item.price * item.qty, 0)
       );
-    }
+    
   }
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const addPayPalScript = async () => {
       const { data: clientId } = await axios.get("/api/config/paypal");
       const script = document.createElement("script");
@@ -64,11 +66,30 @@ const OrderScreen = ({ match }) => {
     }
   }, [dispatch, orderId, successPay, order]);
 
-  const successPaymentHandler = (paymentResult) => {
-    dispatch(payOrder(orderId, paymentResult));
-  };
 
-  const renderPrice = (qty, price, loanPrice, typePay) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+  const totalPrice=order?.totalPrice
+ 
+  const handlePayment=async()=>{
+        try {
+          const data=await axios.post(
+            '/api/transaction/create_payment_url',
+            {amount:totalPrice,
+              orderId,
+            },
+            config
+            )
+          window.location.replace(data.data)
+        } catch (error) {
+          throw new Error('error')
+        }
+      
+  }
+  const renderPrice = (qty, price) => {
     let prices = price * qty;
 
     return prices.toLocaleString("it-IT", {
@@ -77,12 +98,6 @@ const OrderScreen = ({ match }) => {
     });
   };
 
-  const showPrice = (price) => {
-    return price.toLocaleString("it-IT", {
-      style: "currency",
-      currency: "VND",
-    });
-  };
 
   return (
     <>
@@ -127,7 +142,7 @@ const OrderScreen = ({ match }) => {
                     <h5>
                       <strong>Thông tin đơn hàng</strong>
                     </h5>
-                    <p>Shipping: {order.shippingAddress.country}</p>
+                    <p>Shipping: {order.shippingAddress.address}</p>
                     <p>Trạng thái thanh toán: {order.paymentMethod}</p>
                     {order.isPaid ? (
                       <div className="bg-info p-2 col-12">
@@ -155,24 +170,27 @@ const OrderScreen = ({ match }) => {
                   </div>
                   <div className="col-md-8 center">
                     <h5>
-                      <strong>Deliver to</strong>
+                      <strong>Giao Tới</strong>
                     </h5>
                     <p>
-                      Address: {order.shippingAddress.city},{" "}
+                      Địa Chỉ: {order.shippingAddress.city},{" "}
                       {order.shippingAddress.address},{" "}
-                      {order.shippingAddress.postalCode}
                     </p>
                     {order.isDelivered ? (
                       <div className="bg-info p-2 col-12">
                         <p className="text-white text-center text-sm-start">
-                          Delivered on {moment(order.deliveredAt).calendar()}
+                          Giao hàng lúc {moment(order.deliveredAt).calendar()}
                         </p>
+                        {/* <button className="bg-light text-pimary border-0" onClick={handleDelivery}>Đánh giá sản phẩm </button> */}
                       </div>
                     ) : (
                       <div className="bg-danger p-2 col-12">
-                        <p className="text-white text-center text-sm-start">
-                          Not Delivered
+                        <p className="text-white text-center text-sm-start text-center">
+                          Chưa Giao
                         </p>
+                        <button className="bg-light text-danger border-0" onClick={handleDelivery}>Đã Nhận Được Hàng</button>
+                       
+
                       </div>
                     )}
                   </div>
@@ -209,8 +227,6 @@ const OrderScreen = ({ match }) => {
                               renderPrice(
                                 item.qty,
                                 item.price,
-                                item.loanPrice,
-                                item.typePay
                               )}
                           </h6>
                         </div>
@@ -231,15 +247,9 @@ const OrderScreen = ({ match }) => {
                     </tr>
                     <tr>
                       <td>
-                        <strong>Shipping</strong>
+                        <strong>Phí Ship</strong>
                       </td>
                       <td>{showPrice(order.shippingPrice)}</td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <strong>Thuế</strong>
-                      </td>
-                      <td>{showPrice(order.taxPrice)}</td>
                     </tr>
                     <tr>
                       <td>
@@ -249,19 +259,13 @@ const OrderScreen = ({ match }) => {
                     </tr>
                   </tbody>
                 </table>
-                {!order.isPaid && (
-                  <div className="col-12">
-                    {loadingPay && <Loading />}
-                    {!sdkReady ? (
-                      <Loading />
-                    ) : (
-                      <PayPalButton
-                        amount={order.totalPrice}
-                        onSuccess={successPaymentHandler}
-                      />
-                    )}
-                  </div>
-                )}
+                {!order.isPaid && order.paymentMethod !== "direct" &&
+                (<>
+                   <div className="col-12" >
+                      <button onClick={handlePayment} >Thanh Toán Với VNPAY</button>
+                   </div>
+                </>)
+                }
               </div>
             </div>
           </>

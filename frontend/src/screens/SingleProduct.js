@@ -14,16 +14,34 @@ import { PRODUCT_CREATE_REVIEW_RESET } from "../Redux/Constants/ProductConstants
 import moment from "moment";
 import { toast } from "react-toastify";
 import showPrice from "../utils/showPrice";
+import { AlertError, AlertSuccess } from "../utils/alertBox";
+import Footer from "../components/Footer";
 
 const SingleProduct = ({ history, match }) => {
+  window.scrollTo(0,0)
   const [qty, setQty] = useState(1);
+  const handleIncrease = () => {
+    if (qty <= 1) return;
+    setQty((pre) => pre - 1);
+  };
+  const handleDecrease = () => {
+    setQty((pre) => pre + 1);
+  };
   const [rating, setRating] = useState(0);
+  const [hover, setHover] = useState(0);
   const [comment, setComment] = useState("");
-  const [listStore, setListStore] = useState(JSON.parse(localStorage.getItem('favorite')) || []);
+  const [listStore, setListStore] = useState(
+    JSON.parse(localStorage.getItem("favorite")) || []
+  );
   const productId = match.params.id;
   const dispatch = useDispatch();
 
   const productDetails = useSelector((state) => state.productDetails);
+  const { products } = useSelector((state) => state.productList);
+  const productRecommend = products.filter((i) => {
+    i.category == productDetails.product.category;
+  });
+  console.log(productRecommend);
   const { loading, error, product } = productDetails;
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -36,7 +54,7 @@ const SingleProduct = ({ history, match }) => {
 
   useEffect(() => {
     if (successCreateReview) {
-      alert("Review Submitted");
+      AlertSuccess("Bạn đã đánh giá thành công");
       setRating(0);
       setComment("");
       dispatch({ type: PRODUCT_CREATE_REVIEW_RESET });
@@ -46,36 +64,37 @@ const SingleProduct = ({ history, match }) => {
 
   const AddToCartHandle = (e) => {
     e.preventDefault();
-    console.log(qty)
+    console.log(qty);
     history.push(`/cart/${productId}?qty=${qty}`);
   };
 
   const AddToFavoriteHandle = () => {
-    const store = JSON.parse(localStorage.getItem('favorite'));
+    const store = JSON.parse(localStorage.getItem("favorite"));
     let obj = {
       id: product._id,
       name: product.name,
       img: product.image,
       price: product.price,
-    }
+    };
 
-    if (store) {      
-      const listStore = JSON.parse(localStorage.getItem('favorite'));
+    if (store) {
+      const listStore = JSON.parse(localStorage.getItem("favorite"));
       const a = [...listStore];
-      const exits = a.find(item => item.id == product._id);
+      const exits = a.find((item) => item.id == product._id);
       if (exits) {
-        toast.error('Danh sách yêu thích đã tồn tại')
+        AlertError("Danh sách yêu thích đã tồn tại");
       } else {
-        a.push(obj)
-        localStorage.setItem('favorite',JSON.stringify(a));
+        a.push(obj);
+        localStorage.setItem("favorite", JSON.stringify(a));
       }
-    }else{
+    } else {
       const a = [];
-      a.push(obj)
-      localStorage.setItem('favorite',JSON.stringify(a));
+      a.push(obj);
+      localStorage.setItem("favorite", JSON.stringify(a));
     }
     history.push(`/favorite`);
-  }
+    // AlertSuccess("Thêm vào danh sách yêu thích thành công")
+  };
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -101,12 +120,19 @@ const SingleProduct = ({ history, match }) => {
               <div className="col-md-6">
                 <div className="single-image">
                   <img src={product.image} alt={product.name} />
-                  <i className={`fas fa-heart heart ${listStore.find(item => item.id == product._id) ? 'bg-red': ''}`} onClick={AddToFavoriteHandle}></i>
+                  <i
+                    className={`fas fa-heart heart ${
+                      listStore.find((item) => item.id == product._id)
+                        ? "bg-red"
+                        : ""
+                    }`}
+                    onClick={AddToFavoriteHandle}
+                  ></i>
                 </div>
               </div>
               <div className="col-md-6">
                 <div className="product-dtl">
-                      <div className="product-info">                      
+                  <div className="product-info">
                     <div className="product-name">{product.name}</div>
                   </div>
                   <p>{product.description}</p>
@@ -123,30 +149,22 @@ const SingleProduct = ({ history, match }) => {
                         text={`${product.numReviews} reviews`}
                       />
                     </div>
-                      <>
-                        <div className="flex-box d-flex justify-content-between align-items-center">
-                          <h6>Số lượng</h6>
-                          <input type="number" value={qty} onChange={(e) => setQty(e.target.value)} />
-                          {/* <select
-                            value={qty}
-                            onChange={(e) => setQty(e.target.value)}
-                          >
-                            {[...Array(product.countInStock).keys()].map(
-                              (x) => (
-                                <option key={x + 1} value={x + 1}>
-                                  {x + 1}
-                                </option>
-                              )
-                            )}
-                          </select> */}
+                    <>
+                      <div className="flex-box d-flex justify-content-between align-items-center">
+                        <h6>Số lượng</h6>
+                        <div className="ProductInfor__amount-input">
+                          <button onClick={handleIncrease}>-</button>
+                          <input type="text" value={qty} />
+                          <button onClick={handleDecrease}>+</button>
                         </div>
-                        <button
-                          onClick={AddToCartHandle}
-                          className="round-black-btn"
-                        >
-                          Thanh toán
-                            </button>                                                      
-                      </>
+                      </div>
+                      <button
+                        onClick={AddToCartHandle}
+                        className="round-black-btn"
+                      >
+                        Mua Ngay 👉🏻
+                      </button>
+                    </>
                   </div>
                 </div>
               </div>
@@ -176,7 +194,7 @@ const SingleProduct = ({ history, match }) => {
                 ))}
               </div>
               <div className="col-md-6">
-                <h6>Bài đánh giá của khách hàng</h6>
+                <h6>Viết đánh giá của bạn về Món ăn</h6>
                 <div className="my-4">
                   {loadingCreateReview && <Loading />}
                   {errorCreateReview && (
@@ -188,19 +206,27 @@ const SingleProduct = ({ history, match }) => {
                 {userInfo ? (
                   <form onSubmit={submitHandler}>
                     <div className="my-4">
-                      <strong>Xếp hạng</strong>
-                      <select
-                        value={rating}
-                        onChange={(e) => setRating(e.target.value)}
-                        className="col-12 bg-light p-3 mt-2 border-0 rounded"
-                      >
-                        <option value="">Chọn đánh giá...</option>
-                        <option value="1">1 Sao</option>
-                        <option value="2">2 Sao</option>
-                        <option value="3">3 Sao</option>
-                        <option value="4">4 Sao</option>
-                        <option value="5">5 Sao</option>
-                      </select>
+                      {/* rating  */}
+                      <strong>{!rating ? "Rating" : `${rating} sao`}</strong>
+                      <div className="star-rating">
+                        {[...Array(5)].map((star, index) => {
+                          index += 1;
+                          return (
+                            <button
+                              type="button"
+                              key={index}
+                              className={`${
+                                index <= (hover || rating) ? "on" : "off"
+                              } btn_rate`}
+                              onClick={() => setRating(index)}
+                              onMouseEnter={() => setHover(index)}
+                              onMouseLeave={() => setHover(rating)}
+                            >
+                              <span className="star">&#9733;</span>
+                            </button>
+                          );
+                        })}
+                      </div>
                     </div>
                     <div className="my-4">
                       <strong>Bình luận</strong>
@@ -216,7 +242,7 @@ const SingleProduct = ({ history, match }) => {
                         disabled={loadingCreateReview}
                         className="col-12 bg-black border-0 p-3 rounded text-white"
                       >
-                        SUBMIT
+                        Đánh Giá
                       </button>
                     </div>
                   </form>
@@ -233,9 +259,12 @@ const SingleProduct = ({ history, match }) => {
                 )}
               </div>
             </div>
+
+            {/* RECOMMEND */}
           </>
         )}
       </div>
+      <Footer />
     </>
   );
 };

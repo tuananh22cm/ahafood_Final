@@ -8,6 +8,9 @@ body {
   padding: 0;
   box-sizing: border-box;
 }
+html {
+  scroll-behavior: smooth;
+}
 a {
   text-decoration: none;
   color: black;
@@ -714,4 +717,41 @@ margin: 10px;
 
 .bg-red{
   color: red;
+}
+.btn_rate {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+.on {
+  color: #eaa627;
+}
+.off {
+  color: #a09f9f;
+}
+.Btn_ScrollToTop{
+  position: fixed; 
+   width: 100%;
+   left: 90%;
+   bottom: 140px;
+   height: 20px;
+   font-size: 3rem;
+   z-index: 1;
+   cursor: pointer;
+}
+.ProductInfor__amount-input {
+  display: flex;
+ 
+}
+.ProductInfor__amount-input input{
+  width: 3rem;
+  border: 1px solid #c8c4c4;
+  padding-left: 1.2rem;
+  outline: none;
+}
+.ProductInfor__amount-input button{
+  width: 3rem;
+  background-color: rgb(234, 150, 93);
+  border: none;
 }
